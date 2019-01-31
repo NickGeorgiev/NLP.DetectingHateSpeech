@@ -13,16 +13,16 @@ COMMON_TRIGRAMS = set()
 COMMON_POS_BIGRAMS = set()
 COMMON_POS_TRIGRAMS = set()
 
-with open('unigrams.json', 'r') as file:
+with open('../json/sunigrams.json', 'r') as file:
     COMMON_UNIGRAMS = set(json.load(file))
-with open('bigrams.json', 'r') as file:
+with open('../json/bigrams.json', 'r') as file:
     COMMON_BIGRAMS = set(json.load(file))
-with open('trigrams.json', 'r') as file:
+with open('../json/trigrams.json', 'r') as file:
     COMMON_TRIGRAMS = set(json.load(file))
 
-with open('pos_bigrams.json', 'r') as file:
+with open('../json/pos_bigrams.json', 'r') as file:
     COMMON_POS_BIGRAMS = set(json.load(file))
-with open('pos_trigrams.json', 'r') as file:
+with open('../json/pos_trigrams.json', 'r') as file:
     COMMON_POS_TRIGRAMS = set(json.load(file))
 
 
