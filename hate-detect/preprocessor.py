@@ -81,7 +81,8 @@ def get_interjection_words_descriptions(text):
     interjection_words_descriptions = []
     for word in text.split():
         if word in interjection_words:
-            interjection_words_descriptions.append(interjection_words[word])
+            for word_description in interjection_words[word].split():
+                interjection_words_descriptions.append(word_description)
     return interjection_words_descriptions
 
 
