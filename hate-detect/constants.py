@@ -22,7 +22,21 @@ contractions = {
     r"\bwouldn't\b": "would not",
     r"\bcan't\b": "can not",
     r"\bcnt\b": "can not",
-    r"\bcannot\b": "can not"
+    r"\bcannot\b": "can not",
+    r"\bm\b": "am",
+    r"\bIm\b": "I am",
+    r"\byoure\b": "you are",
+    r"\bdont\b": "do not",
+    r"\bdoesnt\b": "does not",
+    r"\bdidnt\b": "did not",
+    r"\bhasnt\b": "has not",
+    r"\bhavent\b": "have not",
+    r"\bhadnt\b": "had not",
+    r"\bwouldnt\b": "would not",
+    r"\bcant\b": "can not",
+    r"\btheyre\b": "they are",
+    r"\bthey're\b": "they are",
+    r"\bll\b": "will",
 }
 
 interjection_words = {
