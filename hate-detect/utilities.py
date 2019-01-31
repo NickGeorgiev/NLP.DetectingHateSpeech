@@ -27,6 +27,7 @@ def get_subclauses(text):
         print("From sentence: {0}".format(text))
     return clauses
 
+
 def tokenize_text(text):
     tokens = nltks.word_tokenize(text)
     for token in tokens:
