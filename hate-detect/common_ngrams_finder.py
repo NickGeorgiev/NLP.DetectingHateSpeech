@@ -1,7 +1,4 @@
 import nltk
-#nltk.download('words')
-#nltk.download('averaged_perceptron_tagger')
-#nltk.download('universal_tagset')
 
 import csv
 import json
@@ -55,12 +52,12 @@ with open('../jsons/trigrams.json', 'w') as file:
 with open('../jsons/pos_bigrams.json', 'w') as file:
     file.write(json.dumps(['{0} {1}'.format(bi[0], bi[1]) for bi in pos_bigram_finder.nbest(bigram_measures.pmi, 10)]))
 
-with open('../pos_trigrams.json', 'w') as file:
+with open('../jsons/pos_trigrams.json', 'w') as file:
     file.write(json.dumps(['{0} {1} {2}'.format(tri[0], tri[1], tri[2]) for tri in pos_trigram_finder.nbest(trigram_measures.pmi, 10)]))
 
 stopwords = set(nltk.corpus.stopwords.words('english'))
 word_count = Counter([word for word in data if word.lower() not in stopwords])
 
-with open('../unigrams.json', 'w') as file:
+with open('../jsons/unigrams.json', 'w') as file:
      file.write(json.dumps([word for word, freq in word_count.most_common(10)]))
 
