@@ -163,7 +163,22 @@ def extract_pos_ngrams_features(features, text):
         features['pos_trigram: ' + pos_trigram] = 1 if pos_trigram in pos_trigrams else 0
 
 
-def extract_features_of_tweet(tweet, raw = False):
+#looks up whether there are pronouns that should be considered as othering language in the whole sentence
+def extract_othering_language_features(features, text):
+    text = get_pos_sentence(text)
+    adj_prp_text = [[word,tag] for word, tag in text if tag in ['PRP', 'PRP$', 'JJ']]
+
+    #filter founded pronouns and adjectives to exclude ones that should be considered as outgroup language
+    filtered_text = [word for word, tag in adj_prp_text if word not in outgroup_pronouns or word != outgroup_adjective]
+    features['outgroup_language'] = 1 if len(adj_prp_text) != len(filtered_text) else 0 
+
+
+def count_adjectives(features, text):
+    text = get_pos_sentence(text)
+    features['adjectives_count'] = len([word for word, tag in text if tag in ['JJ', 'JJR', 'JJS']])
+
+
+def extract_features_of_tweet(tweet, raw=False):
     features = {}
     if raw == False:
         tweet = initial_text_clean_up(tweet)
