@@ -13,6 +13,8 @@ COMMON_TRIGRAMS = set()
 COMMON_POS_BIGRAMS = set()
 COMMON_POS_TRIGRAMS = set()
 
+BAD_WORDS = []
+
 with open('unigrams.json', 'r') as file:
     COMMON_UNIGRAMS = set(json.load(file))
 with open('bigrams.json', 'r') as file:
@@ -24,6 +26,9 @@ with open('pos_bigrams.json', 'r') as file:
     COMMON_POS_BIGRAMS = set(json.load(file))
 with open('pos_trigrams.json', 'r') as file:
     COMMON_POS_TRIGRAMS = set(json.load(file))
+
+with open('bad-words.txt', 'r') as file:
+    BAD_WORDS = [remove_escaped_characters(word) for word in file.readlines()]
 
 
 def extract_sentiment_features_of_tweet(features, tweet):
@@ -106,6 +111,9 @@ def extract_punctuation_features(features, text):
 def extract_quoted_text_features(features, text):
     features["quoted_text"] = len(get_quoted_text(text))
 
+def extract_bad_words_count(features, text):
+    features['bad_words_count'] = len([word for word in text if word in BAD_WORDS])
+    
 
 def extract_quoted_text_polarity(features, text):
     quotes = get_quoted_text(text)
