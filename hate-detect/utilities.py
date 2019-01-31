@@ -29,7 +29,7 @@ def get_subclauses(text):
 
 
 def tokenize_text(text):
-    tokens = nltks.word_tokenize(text)
+    tokens = nltk.word_tokenize(text)
     for token in tokens:
         if token in string.punctuation or token.isnumeric():
             tokens.remove(token)
