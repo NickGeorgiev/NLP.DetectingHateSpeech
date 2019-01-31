@@ -1,7 +1,7 @@
 import nltk
 #nltk.download('words')
 #nltk.download('averaged_perceptron_tagger')
-nltk.download('universal_tagset')
+#nltk.download('universal_tagset')
 
 import csv
 import json
