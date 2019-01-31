@@ -12,6 +12,7 @@ COMMON_BIGRAMS = set()
 COMMON_TRIGRAMS = set()
 COMMON_POS_BIGRAMS = set()
 COMMON_POS_TRIGRAMS = set()
+COMMON_HASHTAGS=set()
 
 BAD_WORDS = []
 
@@ -30,6 +31,8 @@ BAD_WORDS = []
 with open('bad-words.txt', 'r') as file:
     BAD_WORDS = [remove_escaped_characters(word) for word in file.readlines()]
 
+with open('../jsons/common_hashtags.json','r') as file:
+    COMMON_HASHTAGS = set(json.load(file))
 
 def extract_sentiment_features_of_tweet(features, tweet):
     tweet = get_tweet_text_only(tweet)
@@ -73,10 +76,16 @@ def extract_hashtag_features(features, text):
     hashtags = get_hashtags(text)
     polarity = 0.0
     subjectivity = 0.0
+    for popular_tag in COMMON_HASHTAGS:
+        features['popular_hashtag:' + popular_tag] = 0
+
     for tag in hashtags:
         blob = TextBlob(tag)
         polarity += blob.polarity
         subjectivity += blob.subjectivity
+        if tag in COMMON_HASHTAGS:
+            features['popular_hashtag:' + tag] = 1
+
     if len(hashtags):
         polarity /= len(hashtags)
         subjectivity /= len(hashtags)
@@ -115,7 +124,7 @@ def extract_quoted_text_features(features, text):
 def extract_quoted_text_polarity(features, text):
     quotes = get_quoted_text(text)
     polarity = 0.0
-    for startPos, quote in quotes: #sth with the regex?
+    for _, quote in quotes: #sth with the regex?
         quote_blob = TextBlob(quote)
         polarity += quote_blob.sentiment.polarity
     features["quoted_text_polarity"] = -polarity
@@ -125,7 +134,7 @@ def extract_bad_words_count(features, tweet):
     tweet = get_tweet_text_only(tweet)
     tokens = nltk.word_tokenize(tweet)
 
-    features['bad_words_count'] = len([token for token in tokens if token in BAD_WORDS])
+    features['bad_words_count'] = len([token for token in tokens if token in BAD_WORDS]) / (len(tokens)+0.00001)
 
 
 def extract_ngrams_features(features, text):
@@ -169,13 +178,13 @@ def extract_othering_language_features(features, text):
     adj_prp_text = [[word,tag] for word, tag in text if tag in ['PRP', 'PRP$', 'JJ']]
 
     #filter founded pronouns and adjectives to exclude ones that should be considered as outgroup language
-    filtered_text = [word for word, tag in adj_prp_text if word not in outgroup_pronouns or word != outgroup_adjective]
-    features['outgroup_language'] = 1 if len(adj_prp_text) != len(filtered_text) else 0 
+    filtered_text = [word for word, tag in adj_prp_text if word in outgroup_pronouns or word == outgroup_adjective]
+    features['outgroup_language_coef'] =  len(filtered_text) / (len(adj_prp_text) + 0.00001)
 
 
 def count_adjectives(features, text):
     text = get_pos_sentence(text)
-    features['adjectives_count'] = len([word for word, tag in text if tag in ['JJ', 'JJR', 'JJS']])
+    features['adjectives_count'] = len([word for word, tag in text if tag in ['JJ', 'JJR', 'JJS']]) / (len(text) + 0.00001)
 
 
 def extract_features_of_tweet(tweet, raw=False):
@@ -190,6 +199,8 @@ def extract_features_of_tweet(tweet, raw=False):
     extract_quoted_text_polarity(features, tweet)
     extract_hashtag_features(features, tweet)
     extract_bad_words_count(features, tweet)
+    extract_othering_language_features(features,tweet)
+    count_adjectives(features,tweet)
     extract_interjections_features(features, tweet)
     extract_ngrams_features(features, tweet)
     extract_pos_ngrams_features(features, tweet)

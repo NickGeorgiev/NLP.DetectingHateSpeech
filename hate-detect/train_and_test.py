@@ -24,7 +24,7 @@ print("Most informative features - Naive Bayes Classifier:")
 print(naive_bayes.show_most_informative_features())
 
 maxent = MaxentClassifier.train(train_set, 'GIS', trace=0,
-                                encoding=None, gaussian_prior_sigma=0, max_iter=200)
+                                encoding=None, gaussian_prior_sigma=0, max_iter=300)
 print("Accuracy - Max Entropy Classifier: ")
 print(nltk.classify.accuracy(maxent, test_set))
 print("Most informative features - Max Entropy Classifier:")
@@ -32,7 +32,7 @@ print(maxent.show_most_informative_features())
 
 linear_svm_classifier = nltk.SklearnClassifier(LinearSVC(C=1.0, dual=True, fit_intercept=True,
                                                          intercept_scaling=0.1, loss='squared_hinge',
-                                                         max_iter=210, penalty='l2', random_state=0,
+                                                         max_iter=600, penalty='l2', random_state=0,
                                                          tol=0.0001), sparse=False)
 linear_svm_classifier.train(featuresets)
 print("Accuracy - Linear SVM Classifier: ")
@@ -44,8 +44,8 @@ print("Accuracy - Nonlinear SVM: ")
 print(nltk.classify.accuracy(nonlinear_svm, test_set))
 
 
-# test_tweet = "I sure love having this terrible headache.."
-# print(naive_bayes.classify(extract_features_of_tweet(test_tweet, raw=True)))
-# print(maxent.classify(extract_features_of_tweet(test_tweet, raw=True)))
-# print(linear_svm_classifier.classify(extract_features_of_tweet(test_tweet, raw=True)))
-# print(nonlinear_svm.classify(extract_features_of_tweet(test_tweet, raw=True)))
+test_tweet = "#The CBP officers arrested the smuggler, a Mexican national who attempted to drive the drugs across the border. The suspect was a part of the DHS’s trusted traveler program called FAST, that stands for free and secure trade for commercial vehicles. The program started after 9/11. THIS MULE WAS A “trusted traveler”!"
+print(naive_bayes.classify(extract_features_of_tweet(test_tweet, raw=True)))
+print(maxent.classify(extract_features_of_tweet(test_tweet, raw=True)))
+print(linear_svm_classifier.classify(extract_features_of_tweet(test_tweet, raw=True)))
+print(nonlinear_svm.classify(extract_features_of_tweet(test_tweet, raw=True)))

@@ -1,11 +1,12 @@
 import nltk
 
+import re
 import csv
 import json
 import string
 
 from collections import Counter
-from preprocessor import remove_punctuation, remove_escaped_characters
+from preprocessor import remove_punctuation, remove_escaped_characters, get_hashtags
 
 words = set(nltk.corpus.words.words())
 
@@ -16,10 +17,21 @@ data = []
 with open('../jsons/labeled_data.json', 'r') as file:
     data = json.load(file)
 
+all_hastags = [hashtag for elem in (get_hashtags(tweet)
+                            for tweet, label in data if label == 'hatespeech') 
+                                for hashtag in elem]
+
+hashtags_counts = Counter(all_hastags).most_common(10)
+
+with open('../jsons/common_hashtags.json', 'w') as file:
+    file.write(json.dumps([hashtag for hashtag, _ in hashtags_counts]))
+
 data = [tweet for tweet, label in data]
 data = [remove_escaped_characters(sentence).lower() for sentence in data]
+
 all_data_as_text = ' '.join(data)
 data = [item for row in data for item in nltk.wordpunct_tokenize(row.lower()) if item in words]
+
 
 # all_data = [sent.lower() for sent in all_data]
 # all_data = [item for row in all_data for item in nltk.wordpunct_tokenize(row) if item.lower() in words]
