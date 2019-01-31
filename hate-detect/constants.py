@@ -6,6 +6,14 @@ capitalized_text_regex = r'\b[A-Z\s]+\b'
 feature_punctuation = r'\!|\?|\.{2,}'
 quotes = r"(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)"
 
+outgroup_adjective = 'their'
+
+outgroup_pronouns = {
+    'they': 'SubjPr',
+    'them': 'ObjPr',
+    'theirs': 'PossPr',
+    'themselves': 'ReflxPr'
+}
 
 contractions = {
     r"\br\b": "are",
