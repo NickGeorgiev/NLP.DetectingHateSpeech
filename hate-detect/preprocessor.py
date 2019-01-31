@@ -7,7 +7,7 @@ punctuation_pattern = re.compile('[%s]' % re.escape(string.punctuation))
 
 
 def initial_text_clean_up(text):
-    text = text.encode().decode('unicode-escape')
+    text = text.encode('ascii', 'ignore').decode('unicode-escape')
     text = remove_escaped_characters(text)
     text = remove_urls(text)
     text = remove_user_mentions(text)
