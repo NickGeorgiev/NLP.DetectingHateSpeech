@@ -3,29 +3,8 @@ import nltk
 import string
 from nltk.parse import stanford
 
-#os.environ['CLASSPATH'] = '/home/chris/stanford-parser-full-2017-06-09' !!!!!
-
 
 parse_keys = {'S', 'NP', 'VP'}
-
-
-def get_subclauses(text):
-    parser = stanford.StanfordParser()
-    clauses = dict.fromkeys(list(parse_keys), [])
-    try:
-        trees = [tree for tree in parser.parse(text.split())]
-        tree = nltk.Tree.fromstring(str(trees[0]))
-        for subtree in tree.subtrees():
-            if subtree.label() in parse_keys:
-                clauses[subtree.label()].append(' '.join(subtree.leaves()))
-        for item in parse_keys:
-            clauses[item] = clauses[item][1:]
-            clauses[item] = [p for p in clauses[item] if len(p.split()) > 1]
-        return clauses
-    except Exception as e:
-        print(e)
-        print("From sentence: {0}".format(text))
-    return clauses
 
 
 def tokenize_text(text):

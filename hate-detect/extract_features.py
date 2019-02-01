@@ -1,5 +1,6 @@
 import nltk
 import json
+import re
 from textblob import TextBlob
 
 
@@ -95,26 +96,6 @@ def extract_hashtag_features(features, text):
     features['hashtags_subjectivity'] = subjectivity
 
 
-# def extract_parsed_sentence_features(features, text):
-#     # additional clean up just so that parsing can be done safe
-#     text = remove_hashtags(text)
-#     text = remove_hashtag_symbol(text)
-#     text = text.replace(')', '')
-#     text = text.replace('(', '')
-
-#     subclauses = get_subclauses(text)
-
-#     max_polarity = 0.0
-#     min_polarity = 0.0
-#     for subclause in subclauses['S']:
-#         blob = TextBlob(subclause)
-#         if blob.polarity > max_polarity:
-#             max_polarity = blob.polarity
-#         elif blob.polarity < min_polarity:
-#             min_polarity = blob.polarity
-#     features["subclauses_opposing_polarities"] = abs(max_polarity - min_polarity)
-
-
 def extract_punctuation_features(features, text):
     features["punctuation_feature"] = len(get_punctuation(text))
 
@@ -183,6 +164,20 @@ def extract_othering_language_features(features, text):
     filtered_text = [word for word, tag in adj_prp_text if word in outgroup_pronouns or word == outgroup_adjective]
     features['outgroup_language_coef'] =  len(filtered_text) / (len(adj_prp_text) + 0.00001)
 
+def extract_othering_language_collocations(features, text):
+    text = get_pos_sentence(text)
+    allText = ''.join([tag for word,tag in text])
+    vrb_prn_tuples = re.findall(verb_pronoun_regex, allText)
+    features['othering_tuples_part'] = 0
+    features['othering_tuples_polarity'] = 0
+    polarity = 0
+    for verb, pronoun in vrb_prn_tuples:
+        if pronoun == outgroup_adjective or pronoun in outgroup_pronouns:
+            polarity += TextBlob(verb).sentiment.polarity
+    if len(vrb_prn_tuples):
+        polarity /= len(vrb_prn_tuples)
+    features['othering_tuples_polarity'] = polarity
+
 
 def count_adjectives(features, text):
     text = get_pos_sentence(text)
@@ -201,13 +196,13 @@ def extract_features_of_tweet(tweet, raw=False):
     extract_quoted_text_polarity(features, tweet)
     extract_hashtag_features(features, tweet)
     extract_bad_words_count(features, tweet)
-    extract_othering_language_features(features,tweet)
+    # extract_othering_language_features(features,tweet)
     count_adjectives(features,tweet)
     extract_interjections_features(features, tweet)
     extract_ngrams_features(features, tweet)
     # extract_pos_ngrams_features(features, tweet)
     extract_punctuation_features(features, tweet)
-    #extract_parsed_sentence_features(features, tweet)
+    extract_othering_language_collocations(features, tweet)
     extract_sentiment_features_of_tweet(features, tweet)
     extract_topic_features(features, tweet)
 

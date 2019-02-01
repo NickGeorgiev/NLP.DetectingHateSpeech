@@ -39,7 +39,7 @@ print("Accuracy - Linear SVM Classifier: ")
 print(nltk.classify.accuracy(linear_svm_classifier, test_set))
 
 
-nonlinear_svm = SklearnClassifier(SVC(gamma='scale', kernel='poly', coef0 = 5.0, degree = 5, C = 2.0), sparse=False).train(train_set)
+nonlinear_svm = SklearnClassifier(SVC(gamma='scale', kernel='poly', coef0 = 5.0, degree = 5, C = 5.0, shrinking=True, probability=False, tol=1e-3), sparse=False).train(train_set)
 print("Accuracy - Nonlinear SVM: ")
 print(nltk.classify.accuracy(nonlinear_svm, test_set))
 

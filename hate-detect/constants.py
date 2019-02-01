@@ -5,7 +5,8 @@ user_mention_regex = r'@\w+\s?'
 capitalized_text_regex = r'\b[A-Z\s]+\b'
 feature_punctuation = r'\!|\?|\.{2,}'
 quotes = r"(?P<quote>['\"])(?P<string>.*?)(?<!\\)(?P=quote)"
-
+verb_pronoun_regex = r"((VB|VBD|VBG|VBN|VBP|VBZ)\s(PRP|PRP$))"
+    
 outgroup_adjective = 'their'
 
 outgroup_pronouns = {
