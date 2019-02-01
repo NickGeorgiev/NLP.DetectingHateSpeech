@@ -3,3 +3,5 @@
 /sarcasm-detect
 */__pycache__
 /hate-detect/.idea/
+/data/
+/jsons/

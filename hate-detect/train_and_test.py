@@ -2,7 +2,10 @@ import json
 import nltk
 from nltk import MaxentClassifier
 from nltk.classify import NaiveBayesClassifier, SklearnClassifier
+from nltk.metrics import precision, recall, f_measure
 from sklearn.svm import LinearSVC, SVC
+
+from collections import defaultdict
 
 from extract_features import extract_features_of_tweet
 
@@ -16,6 +19,12 @@ with open('../jsons/features_sets.json', 'r') as file:
 data_size = len(featuresets)
 train_set_end = round(data_size * (1 - TEST_SET_SIZE))
 train_set, test_set = featuresets[:train_set_end], featuresets[train_set_end:]
+
+refsets = defaultdict(set)
+testsetsNB = defaultdict(set)
+testsetsLSVM = defaultdict(set)
+testsetsNLSVM = defaultdict(set)
+
 
 naive_bayes = NaiveBayesClassifier.train(train_set)
 print("Accuracy - Naive Bayes Classifier: ")
@@ -49,3 +58,39 @@ print(naive_bayes.classify(extract_features_of_tweet(test_tweet, raw=True)))
 # print(maxent.classify(extract_features_of_tweet(test_tweet, raw=True)))
 print(linear_svm_classifier.classify(extract_features_of_tweet(test_tweet, raw=False)))
 print(nonlinear_svm.classify(extract_features_of_tweet(test_tweet, raw=True)))
+
+for i, (features, label) in enumerate(test_set):
+	refsets[label].add(i)
+	nb_result = naive_bayes.classify(features)
+	lsvm_result = linear_svm_classifier.classify(features)
+	nlsvm_result = nonlinear_svm.classify(features)
+	testsetsNB[nb_result].add(i)
+	testsetsLSVM[lsvm_result].add(i)
+	testsetsNLSVM[nlsvm_result].add(i)
+
+print("NAIVE BAYES: ")
+print('hatespeech precision:', precision(refsets['hatespeech'], testsetsNB['hatespeech']))
+print('hatespeech recall:', recall(refsets['hatespeech'], testsetsNB['hatespeech']))
+print('hatespeech F-measure:', f_measure(refsets['hatespeech'], testsetsNB['hatespeech']))
+print('non-hatespeech precision:', precision(refsets['non-hatespeech'], testsetsNB['non-hatespeech']))
+print('non-hatespeech recall:', recall(refsets['non-hatespeech'], testsetsNB['non-hatespeech']))
+print('non-hatespeech F-measure:', f_measure(refsets['non-hatespeech'], testsetsNB['non-hatespeech']))
+print("\n\n")
+
+print("LINEAR SVM:")
+print('hatespeech precision:', precision(refsets['hatespeech'], testsetsLSVM['hatespeech']))
+print('hatespeech recall:', recall(refsets['hatespeech'], testsetsLSVM['hatespeech']))
+print('hatespeech F-measure:', f_measure(refsets['hatespeech'], testsetsLSVM['hatespeech']))
+print('non-hatespeech precision:', precision(refsets['non-hatespeech'], testsetsLSVM['non-hatespeech']))
+print('non-hatespeech recall:', recall(refsets['non-hatespeech'], testsetsLSVM['non-hatespeech']))
+print('non-hatespeech F-measure:', f_measure(refsets['non-hatespeech'], testsetsLSVM['non-hatespeech']))
+print("\n\n")
+
+print("NONLINEAR SVM")
+print('hatespeech precision:', precision(refsets['hatespeech'], testsetsNLSVM['hatespeech']))
+print('hatespeech recall:', recall(refsets['hatespeech'], testsetsNLSVM['hatespeech']))
+print('hatespeech F-measure:', f_measure(refsets['hatespeech'], testsetsNLSVM['hatespeech']))
+print('non-hatespeech precision:', precision(refsets['non-hatespeech'], testsetsNLSVM['non-hatespeech']))
+print('non-hatespeech recall:', recall(refsets['non-hatespeech'], testsetsNLSVM['non-hatespeech']))
+print('non-hatespeech F-measure:', f_measure(refsets['non-hatespeech'], testsetsNLSVM['non-hatespeech']))
+print("\n\n")
