@@ -6,6 +6,8 @@ from textblob import TextBlob
 from preprocessor import *
 from utilities import *
 
+from topic_model import extract_topic_features
+
 
 COMMON_UNIGRAMS = set()
 COMMON_BIGRAMS = set()
@@ -207,7 +209,6 @@ def extract_features_of_tweet(tweet, raw=False):
     extract_punctuation_features(features, tweet)
     #extract_parsed_sentence_features(features, tweet)
     extract_sentiment_features_of_tweet(features, tweet)
+    extract_topic_features(features, tweet)
 
     return features
-
-
