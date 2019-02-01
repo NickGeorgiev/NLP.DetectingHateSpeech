@@ -27,10 +27,10 @@ testsetsNLSVM = defaultdict(set)
 
 
 naive_bayes = NaiveBayesClassifier.train(train_set)
-#print("Accuracy - Naive Bayes Classifier: ")
-#print(nltk.classify.accuracy(naive_bayes, test_set))
-#print("Most informative features - Naive Bayes Classifier:")
-#print(naive_bayes.show_most_informative_features())
+print("Accuracy - Naive Bayes Classifier: ")
+print(nltk.classify.accuracy(naive_bayes, test_set))
+print("Most informative features - Naive Bayes Classifier:")
+print(naive_bayes.show_most_informative_features())
 
 # maxent = MaxentClassifier.train(train_set, 'GIS', trace=0,
 #                                 encoding=None, gaussian_prior_sigma=0, max_iter=500)
@@ -44,20 +44,20 @@ linear_svm_classifier = nltk.SklearnClassifier(LinearSVC(C=1.0, dual=True, fit_i
                                                          max_iter=15000, penalty='l2', random_state=0,
                                                          tol=0.0001), sparse=False)
 linear_svm_classifier.train(train_set)
-#print("Accuracy - Linear SVM Classifier: ")
-#print(nltk.classify.accuracy(linear_svm_classifier, test_set))
+print("Accuracy - Linear SVM Classifier: ")
+print(nltk.classify.accuracy(linear_svm_classifier, test_set))
 
 
 nonlinear_svm = SklearnClassifier(SVC(gamma='scale', kernel='poly', coef0 = 5.0, degree = 5, C = 2.0), sparse=False).train(train_set)
-#print("Accuracy - Nonlinear SVM: ")
-#print(nltk.classify.accuracy(nonlinear_svm, test_set))
+print("Accuracy - Nonlinear SVM: ")
+print(nltk.classify.accuracy(nonlinear_svm, test_set))
 
 
 test_tweet = "75% of illegal Aliens commit Felons such as ID, SSN and Welfare Theft Illegal #Immigration is not a Victimless Crime !"
-#print(naive_bayes.classify(extract_features_of_tweet(test_tweet, raw=True)))
+print(naive_bayes.classify(extract_features_of_tweet(test_tweet, raw=True)))
 # print(maxent.classify(extract_features_of_tweet(test_tweet, raw=True)))
-#print(linear_svm_classifier.classify(extract_features_of_tweet(test_tweet, raw=False)))
-#print(nonlinear_svm.classify(extract_features_of_tweet(test_tweet, raw=True)))
+print(linear_svm_classifier.classify(extract_features_of_tweet(test_tweet, raw=False)))
+print(nonlinear_svm.classify(extract_features_of_tweet(test_tweet, raw=True)))
 
 for i, (features, label) in enumerate(test_set):
 	refsets[label].add(i)

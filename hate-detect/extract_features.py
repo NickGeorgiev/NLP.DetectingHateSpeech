@@ -8,6 +8,7 @@ from utilities import *
 
 from topic_model import extract_topic_features
 
+from word_embeddings import extract_glove_features
 
 COMMON_UNIGRAMS = set()
 COMMON_BIGRAMS = set()
@@ -195,6 +196,7 @@ def extract_features_of_tweet(tweet, raw=False):
         tweet = initial_text_clean_up(tweet)
     tweet = remove_unicode_characters(tweet)
     tweet = remove_escaped_characters(tweet)
+    extract_glove_features(features, tweet)
     extract_punctuation_features(features, tweet)
     extract_quoted_text_features(features, tweet)
     extract_capitalization_features(features, tweet)
@@ -205,7 +207,7 @@ def extract_features_of_tweet(tweet, raw=False):
     count_adjectives(features,tweet)
     extract_interjections_features(features, tweet)
     extract_ngrams_features(features, tweet)
-    # extract_pos_ngrams_features(features, tweet)
+    extract_pos_ngrams_features(features, tweet)
     extract_punctuation_features(features, tweet)
     #extract_parsed_sentence_features(features, tweet)
     extract_sentiment_features_of_tweet(features, tweet)
