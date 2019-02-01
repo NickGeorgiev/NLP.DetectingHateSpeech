@@ -169,7 +169,6 @@ def extract_othering_language_collocations(features, text):
     text = get_pos_sentence(text)
     allText = ''.join([tag for word,tag in text])
     vrb_prn_tuples = re.findall(verb_pronoun_regex, allText)
-    features['othering_tuples_part'] = 0
     features['othering_tuples_polarity'] = 0
     polarity = 0
     for verb, pronoun in vrb_prn_tuples:
@@ -191,7 +190,7 @@ def extract_features_of_tweet(tweet, raw=False):
         tweet = initial_text_clean_up(tweet)
     tweet = remove_unicode_characters(tweet)
     tweet = remove_escaped_characters(tweet)
-    extract_glove_features(features, tweet)
+    #extract_glove_features(features, tweet)
     extract_punctuation_features(features, tweet)
     extract_quoted_text_features(features, tweet)
     extract_capitalization_features(features, tweet)
@@ -204,7 +203,7 @@ def extract_features_of_tweet(tweet, raw=False):
     extract_ngrams_features(features, tweet)
     extract_pos_ngrams_features(features, tweet)
     extract_punctuation_features(features, tweet)
-    extract_othering_language_collocations(features, tweet)
+    #extract_othering_language_collocations(features, tweet)
     extract_sentiment_features_of_tweet(features, tweet)
     extract_topic_features(features, tweet)
 
