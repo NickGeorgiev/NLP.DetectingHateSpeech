@@ -198,7 +198,7 @@ def extract_features_of_tweet(tweet, raw=False):
     extract_quoted_text_polarity(features, tweet)
     extract_hashtag_features(features, tweet)
     extract_bad_words_count(features, tweet)
-    # extract_othering_language_features(features,tweet)
+    extract_othering_language_features(features,tweet)
     count_adjectives(features,tweet)
     extract_interjections_features(features, tweet)
     extract_ngrams_features(features, tweet)

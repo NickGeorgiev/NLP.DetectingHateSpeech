@@ -4,7 +4,7 @@ import numpy
 DIMENSIONS = 50;
 
 WORD_EMBEDDINGS = {}
-file = open('../data/glove/glove.6B.{0}d.txt'.format(DIMENSIONS))
+file = open('../data/glove/glove.6B.{0}d.txt'.format(DIMENSIONS), encoding="utf8")
 for line in file:
   values = line.split()
   WORD_EMBEDDINGS[values[0]] = numpy.asarray(values[1:], dtype='float32')
