@@ -16,17 +16,17 @@ COMMON_HASHTAGS=set()
 
 BAD_WORDS = []
 
-# with open('unigrams.json', 'r') as file:
-#     COMMON_UNIGRAMS = set(json.load(file))
-# with open('bigrams.json', 'r') as file:
-#     COMMON_BIGRAMS = set(json.load(file))
-# with open('trigrams.json', 'r') as file:
-#     COMMON_TRIGRAMS = set(json.load(file))
+with open('../jsons/unigrams.json', 'r') as file:
+    COMMON_UNIGRAMS = set(json.load(file))
+with open('../jsons/bigrams.json', 'r') as file:
+    COMMON_BIGRAMS = set(json.load(file))
+with open('../jsons/trigrams.json', 'r') as file:
+    COMMON_TRIGRAMS = set(json.load(file))
 
-# with open('pos_bigrams.json', 'r') as file:
-#     COMMON_POS_BIGRAMS = set(json.load(file))
-# with open('pos_trigrams.json', 'r') as file:
-#     COMMON_POS_TRIGRAMS = set(json.load(file))
+with open('../jsons/pos_bigrams.json', 'r') as file:
+    COMMON_POS_BIGRAMS = set(json.load(file))
+with open('../jsons/pos_trigrams.json', 'r') as file:
+    COMMON_POS_TRIGRAMS = set(json.load(file))
 
 with open('bad-words.txt', 'r') as file:
     BAD_WORDS = [remove_escaped_characters(word) for word in file.readlines()]
@@ -203,7 +203,7 @@ def extract_features_of_tweet(tweet, raw=False):
     count_adjectives(features,tweet)
     extract_interjections_features(features, tweet)
     extract_ngrams_features(features, tweet)
-    extract_pos_ngrams_features(features, tweet)
+    # extract_pos_ngrams_features(features, tweet)
     extract_punctuation_features(features, tweet)
     #extract_parsed_sentence_features(features, tweet)
     extract_sentiment_features_of_tweet(features, tweet)

@@ -19,8 +19,8 @@ if __name__ == '__main__':
     labeled_data = parse_CSV('../data/dev_en.tsv') + parse_CSV('../data/train_en.tsv')
     random.shuffle(labeled_data)
     
-    # with open('../jsons/labeled_data.json', 'w') as file:
-        # file.write(json.dumps(labeled_data))
+    with open('../jsons/labeled_data.json', 'w') as file:
+        file.write(json.dumps(labeled_data))
 
     # TODO: dump features
 
