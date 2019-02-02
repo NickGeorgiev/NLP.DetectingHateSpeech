@@ -17,22 +17,17 @@ featuresets = []
 with open('../jsons/features_sets.json', 'r') as file:
     featuresets = json.load(file)
 
+
 data_size = len(featuresets)
 train_set_end = round(data_size * (1 - TEST_SET_SIZE))
 train_set, test_set = featuresets[:train_set_end], featuresets[train_set_end:]
 
-refsets = defaultdict(set)
-testsetsNB = defaultdict(set)
-testsetsLSVM = defaultdict(set)
-testsetsNLSVM = defaultdict(set)
-testsetsRF = defaultdict(set)
 
-
-naive_bayes = NaiveBayesClassifier.train(train_set)
-print("Accuracy - Naive Bayes Classifier: ")
-print(nltk.classify.accuracy(naive_bayes, test_set))
-print("Most informative features - Naive Bayes Classifier:")
-print(naive_bayes.show_most_informative_features())
+# naive_bayes = NaiveBayesClassifier.train(train_set)
+# print("Accuracy - Naive Bayes Classifier: ")
+# print(nltk.classify.accuracy(naive_bayes, test_set))
+# print("Most informative features - Naive Bayes Classifier:")
+# print(naive_bayes.show_most_informative_features())
 
 # maxent = MaxentClassifier.train(train_set, 'GIS', trace=0,
 #                                 encoding=None, gaussian_prior_sigma=0, max_iter=100)
@@ -74,18 +69,7 @@ print(nltk.classify.accuracy(random_forest, test_set))
 
 
 test_tweet = "75% of illegal Aliens commit Felons such as ID, SSN and Welfare Theft Illegal #Immigration is not a Victimless Crime !"
-print(naive_bayes.classify(extract_features_of_tweet(test_tweet, raw=True)))
+# print(naive_bayes.classify(extract_features_of_tweet(test_tweet, raw=True)))
 # print(maxent.classify(extract_features_of_tweet(test_tweet, raw=True)))
 print(linear_svm_classifier.classify(extract_features_of_tweet(test_tweet, raw=False)))
 print(nonlinear_svm.classify(extract_features_of_tweet(test_tweet, raw=True)))
-
-for i, (features, label) in enumerate(test_set):
-	refsets[label].add(i)
-	nb_result = naive_bayes.classify(features)
-	lsvm_result = linear_svm_classifier.classify(features)
-	nlsvm_result = nonlinear_svm.classify(features)
-	random_forest_result = random_forest.classify(features)
-	testsetsNB[nb_result].add(i)
-	testsetsLSVM[lsvm_result].add(i)
-	testsetsNLSVM[nlsvm_result].add(i)
-	testsetsRF[random_forest_result].add(i)

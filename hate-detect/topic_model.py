@@ -90,14 +90,6 @@ optimal_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                            passes=10,
                                            alpha='auto',
                                            per_word_topics=True)
-#print(optimal_model.show_topics(num_topics=-1, log=False, formatted=True))
-#doc = "i hate immigrants"
-#print(utils.simple_preprocess(doc))
-#bow = id2word.doc2bow(utils.simple_preprocess(doc))
-#print(optimal_model[bow][0])
-
-#print(optimal_model)
-#print(optimal_model.top_topics(corpus, topn=5))
 
 
 def extract_topic_features(features, text, top=TOPICS):

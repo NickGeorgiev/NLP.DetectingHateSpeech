@@ -33,9 +33,6 @@ all_data_as_text = ' '.join(data)
 data = [item for row in data for item in nltk.wordpunct_tokenize(row.lower()) if item in words]
 
 
-# all_data = [sent.lower() for sent in all_data]
-# all_data = [item for row in all_data for item in nltk.wordpunct_tokenize(row) if item.lower() in words]
-#pos_tags = [nltk.word_tokenize(row) for row in all_data]
 tokens = nltk.word_tokenize(remove_punctuation(all_data_as_text))
 for t in tokens:
     if t in string.punctuation or t.isnumeric():

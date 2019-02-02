@@ -22,7 +22,6 @@ if __name__ == '__main__':
     with open('../jsons/labeled_data.json', 'w') as file:
         file.write(json.dumps(labeled_data))
 
-    # TODO: dump features
 
     featuresets = [(extract_features_of_tweet(tweet), cls) for (tweet, cls) in labeled_data]
     with open('../jsons/features_sets.json', 'w') as file:

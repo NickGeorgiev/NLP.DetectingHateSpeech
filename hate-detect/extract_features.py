@@ -38,6 +38,7 @@ with open('bad-words.txt', 'r') as file:
 with open('../jsons/common_hashtags.json','r') as file:
     COMMON_HASHTAGS = set(json.load(file))
 
+
 def extract_sentiment_features_of_tweet(features, tweet):
     tweet = get_tweet_text_only(tweet)
 
@@ -108,7 +109,7 @@ def extract_quoted_text_features(features, text):
 def extract_quoted_text_polarity(features, text):
     quotes = get_quoted_text(text)
     polarity = 0.0
-    for _, quote in quotes: #sth with the regex?
+    for _, quote in quotes:
         quote_blob = TextBlob(quote)
         polarity += quote_blob.sentiment.polarity
     features["quoted_text_polarity"] = -polarity
@@ -164,6 +165,7 @@ def extract_othering_language_features(features, text):
     #filter founded pronouns and adjectives to exclude ones that should be considered as outgroup language
     filtered_text = [word for word, tag in adj_prp_text if word in outgroup_pronouns or word == outgroup_adjective]
     features['outgroup_language_coef'] =  len(filtered_text) / (len(adj_prp_text) + 0.00001)
+
 
 def extract_othering_language_collocations(features, text):
     text = get_pos_sentence(text)
